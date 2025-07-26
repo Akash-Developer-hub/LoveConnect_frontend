@@ -17,7 +17,7 @@ const Signup: React.FC = () => {
   const navigate = useNavigate();
 
   const signup = async (name: string, email: string, pin: string) => {
-    const response = await fetch('http://localhost:8000/loveconnect/api/signup/', {
+    const response = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/signup/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

@@ -18,7 +18,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   const login = async (email: string, pin: string) => {
-    const res = await fetch('http://localhost:8000/loveconnect/api/login/',
+    const res = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/login/',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -50,7 +50,7 @@ const Login: React.FC = () => {
 
   const fetchBreakupStatus = async (email: string) => {
     try {
-      const res = await fetch(`http://localhost:8000/loveconnect/api/breakup-status?email=${encodeURIComponent(email)}`, {
+      const res = await fetch(`https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/breakup-status?email=${encodeURIComponent(email)}`, {
         method: 'GET',
         credentials: 'include'
       });
@@ -67,7 +67,7 @@ const Login: React.FC = () => {
 
   const sendPatchupRequest = async () => {
     try {
-      const res = await fetch('http://localhost:8000/loveconnect/api/request-patchup/', {
+      const res = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/request-patchup/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -201,7 +201,7 @@ const Login: React.FC = () => {
               const email = decoded?.email;
 
               // Send token to backend
-              const res = await fetch('http://localhost:8000/loveconnect/api/google-signin/', {
+              const res = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/google-signin/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',

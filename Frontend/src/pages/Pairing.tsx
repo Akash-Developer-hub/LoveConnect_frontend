@@ -49,7 +49,7 @@ const Pairing: React.FC = () => {
     setError('');
     
     try {
-      const response = await fetch('http://localhost:8000/loveconnect/api/pair-partner/', {
+      const response = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/pair-partner/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -81,7 +81,7 @@ const Pairing: React.FC = () => {
     setError('');
     
     try {
-      const response = await fetch('http://localhost:8000/loveconnect/api/pair-partner/', {
+      const response = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/pair-partner/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

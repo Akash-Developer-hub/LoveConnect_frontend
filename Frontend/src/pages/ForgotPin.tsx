@@ -19,7 +19,7 @@ const ForgotPin: React.FC = () => {
     setMessage('');
     if (step === 'email') {
       try {
-        const res = await fetch('http://localhost:8000/loveconnect/api/forgot-pin/', {
+        const res = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/forgot-pin/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email })
@@ -44,7 +44,7 @@ const ForgotPin: React.FC = () => {
         return;
       }
       try {
-        const res = await fetch('http://localhost:8000/loveconnect/api/verify-reset-pin/', {
+        const res = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/verify-reset-pin/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, resetCode: otp, newPin })

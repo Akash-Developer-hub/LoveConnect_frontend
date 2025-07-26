@@ -40,7 +40,7 @@ const Reminders: React.FC = () => {
   useEffect(() => {
     const fetchReminders = async () => {
       try {
-        const res = await axios.get('http://localhost:8000/loveconnect/api/reminders/', {
+        const res = await axios.get('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/reminders/', {
           withCredentials: true
         });
         // Convert date strings to Date objects
@@ -89,14 +89,14 @@ const Reminders: React.FC = () => {
         if (isEditing && editingReminder) {
           // PATCH to update
           await axios.patch(
-            `http://localhost:8000/loveconnect/api/reminders/update/${editingReminder.id}/`,
+            `https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/reminders/update/${editingReminder.id}/`,
             newReminder,
             { withCredentials: true }
           );
         } else {
           // POST to create
           await axios.post(
-            'http://localhost:8000/loveconnect/api/reminders/create/',
+            'https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/reminders/create/',
             newReminder,
             { withCredentials: true }
           );
@@ -115,7 +115,7 @@ const Reminders: React.FC = () => {
         });
         setIsCreating(false);
         // Refresh list
-        const refreshed = await axios.get('http://localhost:8000/loveconnect/api/reminders/', {
+        const refreshed = await axios.get('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/reminders/', {
           withCredentials: true
         });
         const remindersWithDates = refreshed.data.reminders.map((reminder: any) => ({
@@ -132,10 +132,10 @@ const Reminders: React.FC = () => {
 
   const toggleComplete = async (id: string) => {
     try {
-      await axios.patch(`http://localhost:8000/loveconnect/api/reminders/complete/${id}/`, null, {
+      await axios.patch(`https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/reminders/complete/${id}/`, null, {
         withCredentials: true
       });
-      const res = await axios.get('http://localhost:8000/loveconnect/api/reminders/', {
+      const res = await axios.get('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/reminders/', {
         withCredentials: true
       });
       // Convert date strings to Date objects
@@ -152,10 +152,10 @@ const Reminders: React.FC = () => {
 
   const deleteReminder = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:8000/loveconnect/api/reminders/delete/${id}/`, {
+      await axios.delete(`https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/reminders/delete/${id}/`, {
         withCredentials: true
       });
-      const res = await axios.get('http://localhost:8000/loveconnect/api/reminders/', {
+      const res = await axios.get('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/reminders/', {
         withCredentials: true
       });
       // Convert date strings to Date objects

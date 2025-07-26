@@ -28,7 +28,7 @@ const Extras: React.FC = () => {
   const [todoItems, setTodoItems] = useState<TodoItem[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:8000/loveconnect/api/extras/', {
+    fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/extras/', {
       credentials: 'include'
     })
       .then(res => res.json())
@@ -45,7 +45,7 @@ const Extras: React.FC = () => {
 
   const handleAddLoveNote = async () => {
     if (!newLoveNote.trim()) return;
-    const res = await fetch('http://localhost:8000/loveconnect/api/extras/lovejar/add/', {
+    const res = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/extras/lovejar/add/', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -59,7 +59,7 @@ const Extras: React.FC = () => {
   };
 
   const handleRevealNote = async (id: string) => {
-    await fetch(`http://localhost:8000/loveconnect/api/extras/lovejar/reveal/${id}/`, {
+    await fetch(`https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/extras/lovejar/reveal/${id}/`, {
       method: 'PATCH',
       credentials: 'include'
     });
@@ -72,7 +72,7 @@ const Extras: React.FC = () => {
 
   const handleAddTodo = async () => {
     if (!newTodoItem.trim()) return;
-    const res = await fetch('http://localhost:8000/loveconnect/api/extras/todo/add/', {
+    const res = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/extras/todo/add/', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -85,7 +85,7 @@ const Extras: React.FC = () => {
   };
 
   const handleToggleTodo = async (id: string) => {
-    await fetch(`http://localhost:8000/loveconnect/api/extras/todo/toggle/${id}/`, {
+    await fetch(`https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/extras/todo/toggle/${id}/`, {
       method: 'PATCH',
       credentials: 'include'
     });
@@ -97,7 +97,7 @@ const Extras: React.FC = () => {
   };
 
   const handleDeleteTodo = async (id: string) => {
-    await fetch(`http://localhost:8000/loveconnect/api/extras/todo/delete/${id}/`, {
+    await fetch(`https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/extras/todo/delete/${id}/`, {
       method: 'DELETE',
       credentials: 'include'
     });
@@ -105,7 +105,7 @@ const Extras: React.FC = () => {
   };
 
   const handleDeleteLoveNote = async (id: string) => {
-    await fetch(`http://localhost:8000/loveconnect/api/extras/lovejar/delete/${id}/`, {
+    await fetch(`https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/extras/lovejar/delete/${id}/`, {
       method: 'DELETE',
       credentials: 'include'
     });

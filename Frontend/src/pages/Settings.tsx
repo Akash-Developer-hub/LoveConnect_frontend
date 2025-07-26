@@ -58,7 +58,7 @@ const Settings: React.FC = () => {
         showToast('Please provide a reason for the breakup 💔', 'error');
         return;
       }
-      const statusRes = await fetch('http://localhost:8000/loveconnect/api/breakup/', {
+      const statusRes = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/breakup/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -69,7 +69,7 @@ const Settings: React.FC = () => {
         showToast(statusData.error || 'Failed to update breakup status', 'error');
         return;
       }
-      const res = await fetch('http://localhost:8000/loveconnect/api/logout/', {
+      const res = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/logout/', {
         method: 'POST',
         credentials: 'include'
       });
@@ -88,7 +88,7 @@ const Settings: React.FC = () => {
   };
 
   const handleSaveProfile = async () => {
-    await fetch('http://localhost:8000/loveconnect/api/update-profile/', {
+    await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/update-profile/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -108,7 +108,7 @@ const Settings: React.FC = () => {
       return;
     }
     try {
-      const response = await fetch('http://localhost:8000/loveconnect/api/change-pin/', {
+      const response = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/change-pin/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -140,7 +140,7 @@ const Settings: React.FC = () => {
 
   const handleRelationshipStatusChange = async (newStatus: string) => {
     try {
-      const response = await fetch('http://localhost:8000/loveconnect/api/relationship-status', {
+      const response = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/relationship-status', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'

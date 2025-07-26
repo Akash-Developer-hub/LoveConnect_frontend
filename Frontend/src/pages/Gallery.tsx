@@ -126,7 +126,7 @@ const Gallery: React.FC = () => {
       const formData = new FormData();
       formData.append('image', selectedFile);
       formData.append('caption', caption.trim());
-      const response = await fetch('http://localhost:8000/loveconnect/api/upload-photo/', {
+      const response = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/upload-photo/', {
         method: 'POST',
         body: formData,
         credentials: 'include'
@@ -169,7 +169,7 @@ const Gallery: React.FC = () => {
   const submitEditCaption = async () => {
     if (!editModalItem || !editedCaption.trim()) return;
     try {
-      const res = await fetch("http://localhost:8000/loveconnect/api/edit-caption/", {
+      const res = await fetch("https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/edit-caption/", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -198,7 +198,7 @@ const Gallery: React.FC = () => {
   const confirmDelete = async () => {
     if (!deleteConfirmItem) return;
     try {
-      const res = await fetch("http://localhost:8000/loveconnect/api/delete-photo/", {
+      const res = await fetch("https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/delete-photo/", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -233,7 +233,7 @@ const Gallery: React.FC = () => {
     const item = galleryItems.find(i => i.id === id);
     if (!item || !currentUserEmail) return;
     try {
-      const res = await fetch('http://localhost:8000/loveconnect/api/toggle-like/', {
+      const res = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/toggle-like/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -276,11 +276,11 @@ const Gallery: React.FC = () => {
     const fetchGallery = async () => {
       try {
         const [userRes, galleryRes] = await Promise.all([
-          fetch('http://localhost:8000/loveconnect/api/get-user/', {
+          fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/get-user/', {
             method: 'GET',
             credentials: 'include'
           }),
-          fetch('http://localhost:8000/loveconnect/api/gallery/', {
+          fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/gallery/', {
             method: 'GET',
             credentials: 'include'
           })
@@ -309,7 +309,7 @@ const Gallery: React.FC = () => {
     };
 
     const fetchUser = async () => {
-      const res = await fetch("http://localhost:8000/loveconnect/api/get-user/", {
+      const res = await fetch("https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/get-user/", {
         method: 'GET',
         credentials: 'include'
       });

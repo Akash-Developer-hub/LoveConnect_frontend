@@ -38,7 +38,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Check if user is logged in on app start
     const checkAuth = async () => {
       try {
-        const response = await fetch('http://localhost:8000/loveconnect/api/get-user/', {
+        const response = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/get-user/', {
           credentials: 'include'
         });
         
@@ -72,7 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (email: string, pin: string): Promise<boolean> => {
     try {
-      const response = await fetch('http://localhost:8000/loveconnect/api/login/', {
+      const response = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/login/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -81,7 +81,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       if (response.ok) {
         // Login successful - fetch user data
-        const userResponse = await fetch('http://localhost:8000/loveconnect/api/get-user/', {
+        const userResponse = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/get-user/', {
           credentials: 'include'
         });
         
@@ -112,7 +112,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signup = async (name: string, email: string, pin: string): Promise<boolean> => {
     try {
-      const response = await fetch('http://localhost:8000/loveconnect/api/signup/', {
+      const response = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/signup/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -131,7 +131,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = async () => {
     try {
       // Call backend logout to clear cookies
-      await fetch('http://localhost:8000/loveconnect/api/logout/', {
+      await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/logout/', {
         method: 'POST',
         credentials: 'include'
       });

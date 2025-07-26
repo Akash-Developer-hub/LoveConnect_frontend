@@ -156,7 +156,7 @@ const Chat: React.FC = () => {
 
   const fetchMessages = async () => {
     try {
-      const res = await fetch('http://localhost:8000/loveconnect/api/get-messages/', {
+      const res = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/get-messages/', {
         credentials: 'include'
       });
       const data = await res.json();
@@ -182,7 +182,7 @@ const Chat: React.FC = () => {
     try {
       setIsLoading(true);
 
-      const response = await fetch('http://localhost:8000/loveconnect/api/send-message/', {
+      const response = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/send-message/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

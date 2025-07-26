@@ -49,7 +49,7 @@ const Notes: React.FC = () => {
   const [notes, setNotes] = useState<Note[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:8000/loveconnect/api/notes/', {
+    fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/notes/', {
       credentials: 'include',
     })
       .then(res => res.json())
@@ -86,7 +86,7 @@ const Notes: React.FC = () => {
       isFavorite: false
     };
     showToast('Creating a new note for your thoughts... 💕', 'info');
-    const res = await fetch('http://localhost:8000/loveconnect/api/notes/create/', {
+    const res = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/notes/create/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newNoteData),
@@ -118,7 +118,7 @@ const Notes: React.FC = () => {
     if (editingNote.id) {
       showToast('Saving your precious thoughts... 💭', 'info');
 
-      const res = await fetch(`http://localhost:8000/loveconnect/api/notes/${editingNote.id}/`, {
+      const res = await fetch(`https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/notes/${editingNote.id}/`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -149,7 +149,7 @@ const Notes: React.FC = () => {
   const handleDeleteNote = async (id: string) => {
     showToast('Removing note...', 'info');
 
-    const res = await fetch(`http://localhost:8000/loveconnect/api/notes/${id}/delete/`, { method: 'DELETE', credentials: 'include' });
+    const res = await fetch(`https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/notes/${id}/delete/`, { method: 'DELETE', credentials: 'include' });
     if (res.ok) {
       setNotes(prev => prev.filter(note => note.id !== id));
       if (selectedNote?.id === id) {
@@ -162,7 +162,7 @@ const Notes: React.FC = () => {
   };
 
   const toggleFavorite = async (id: string) => {
-    const res = await fetch(`http://localhost:8000/loveconnect/api/notes/${id}/favorite/`, { method: 'PATCH', credentials: 'include' });
+    const res = await fetch(`https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/notes/${id}/favorite/`, { method: 'PATCH', credentials: 'include' });
     const data = await res.json();
     if (res.ok && data.isFavorite !== undefined) {
       setNotes(prev =>
