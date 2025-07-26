@@ -42,6 +42,10 @@ const Login: React.FC = () => {
     }
 
     if (res.ok) {
+
+      if (data.token) {
+        document.cookie = `loveconnect=${data.token}; path=/; secure; samesite=strict`;
+      }
       return true;
     }
 
@@ -212,6 +216,9 @@ const Login: React.FC = () => {
               if (res.ok) {
                 const { login_success } = data;
                 if (login_success) {
+                  if (data.token) {
+                    document.cookie = `loveconnect=${data.token}; path=/; secure; samesite=strict`;
+                  }
                   navigate('/dashboard');
                 } else {
                   navigate('/pairing', { state: { email } });
