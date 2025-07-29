@@ -85,74 +85,75 @@ const Chat: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!user?.partnerCode) return;
+      if (!user?.partnerCode) return;
 
-    const token = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('loveconnect'))?.split('=')[1];
+      const token = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('loveconnect'))?.split('=')[1];
 
-    const socket = new WebSocket(`ws://loveconnect-backend-kvb9.onrender.com/ws/chat/${user.partnerCode}/`);
-    socketRef.current = socket;
+      // Use secure WebSocket (wss://) for HTTPS sites
+      const socket = new WebSocket(`wss://loveconnect-backend-kvb9.onrender.com/ws/chat/${user.partnerCode}/`);
+      socketRef.current = socket;
 
-    socket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
+      socket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
 
-      if (data.type === 'reminder_alert') {
-        const reminder = data.reminder;
-        showToast(`🔔 Reminder: ${reminder.title} - ${reminder.description}`, 'info');
-        return;
-      }
-
-      if (data.type === 'seen_update') {
-        console.log('Received seen_update:', data);
-        setMessages(prev =>
-          prev.map(msg =>
-            msg.id === data.message_id ? { ...msg, seen: data.seen } : msg
-          )
-        );
-        return;
-      }
-
-      setMessages(prev => [...prev, {
-        id: Date.now().toString(),
-        senderEmail: data.senderEmail,
-        content: data.content,
-        type: data.type,
-        timestamp: new Date(data.timestamp),
-        imageUrl: data.type === 'image' ? data.content : null,
-        seen: data.seen || false
-      }]);
-
-      if (data.senderEmail !== user?.email) {
-        setNotificationMsg('New message from your partner');
-        setShowNotification(true);
-        setTimeout(() => setShowNotification(false), 3000);
-        if ("Notification" in window && Notification.permission === "granted") {
-          new Notification("LoveConnect", {
-            body: data.type === 'image' ? 'Image received' : data.content,
-            icon: "/favicon.ico"
-          });
+        if (data.type === 'reminder_alert') {
+          const reminder = data.reminder;
+          showToast(`🔔 Reminder: ${reminder.title} - ${reminder.description}`, 'info');
+          return;
         }
-      }
-    };
 
-    socket.onclose = () => {
-      console.warn("WebSocket closed");
-      showToast('Connection lost. Trying to reconnect...', 'error');
-    };
+        if (data.type === 'seen_update') {
+          console.log('Received seen_update:', data);
+          setMessages(prev =>
+            prev.map(msg =>
+              msg.id === data.message_id ? { ...msg, seen: data.seen } : msg
+            )
+          );
+          return;
+        }
 
-    socket.onopen = () => {
-      showToast('Connected to chat! 💕', 'success');
-      if (isWindowVisible && socketRef.current?.readyState === WebSocket.OPEN) {
-        console.log('Sending mark_seen on open');
-        socketRef.current.send(JSON.stringify({ type: 'mark_seen' }));
-      }
-    };
+        setMessages(prev => [...prev, {
+          id: Date.now().toString(),
+          senderEmail: data.senderEmail,
+          content: data.content,
+          type: data.type,
+          timestamp: new Date(data.timestamp),
+          imageUrl: data.type === 'image' ? data.content : null,
+          seen: data.seen || false
+        }]);
 
-    return () => {
-      socket.close();
-    };
-  }, [user?.partnerCode, isWindowVisible]);
+        if (data.senderEmail !== user?.email) {
+          setNotificationMsg('New message from your partner');
+          setShowNotification(true);
+          setTimeout(() => setShowNotification(false), 3000);
+          if ("Notification" in window && Notification.permission === "granted") {
+            new Notification("LoveConnect", {
+              body: data.type === 'image' ? 'Image received' : data.content,
+              icon: "/favicon.ico"
+            });
+          }
+        }
+      };
+
+      socket.onclose = () => {
+        console.warn("WebSocket closed");
+        showToast('Connection lost. Trying to reconnect...', 'error');
+      };
+
+      socket.onopen = () => {
+        showToast('Connected to chat! 💕', 'success');
+        if (isWindowVisible && socketRef.current?.readyState === WebSocket.OPEN) {
+          console.log('Sending mark_seen on open');
+          socketRef.current.send(JSON.stringify({ type: 'mark_seen' }));
+        }
+      };
+
+      return () => {
+        socket.close();
+      };
+    }, [user?.partnerCode, isWindowVisible]);
 
   const fetchMessages = async () => {
     try {
