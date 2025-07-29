@@ -91,7 +91,7 @@ const Chat: React.FC = () => {
       .split('; ')
       .find(row => row.startsWith('loveconnect'))?.split('=')[1];
 
-    const socket = new WebSocket(`ws://localhost:8000/ws/chat/${user.partnerCode}/`);
+    const socket = new WebSocket(`ws://loveconnect-backend-kvb9.onrender.com/ws/chat/${user.partnerCode}/`);
     socketRef.current = socket;
 
     socket.onmessage = (event) => {
