@@ -49,7 +49,15 @@ const Notes: React.FC = () => {
   const [notes, setNotes] = useState<Note[]>([]);
 
   useEffect(() => {
+    const token = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('loveconnect='))
+      ?.split('=')[1];
+
     fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/notes/', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
       credentials: 'include',
     })
       .then(res => res.json())
@@ -86,9 +94,14 @@ const Notes: React.FC = () => {
       isFavorite: false
     };
     showToast('Creating a new note for your thoughts... 💕', 'info');
+    const token = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('loveconnect='))
+      ?.split('=')[1];
+
     const res = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/notes/create/', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
       body: JSON.stringify(newNoteData),
       credentials: 'include',
     });
@@ -118,9 +131,14 @@ const Notes: React.FC = () => {
     if (editingNote.id) {
       showToast('Saving your precious thoughts... 💭', 'info');
 
+      const token = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('loveconnect='))
+      ?.split('=')[1];
+
       const res = await fetch(`https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/notes/${editingNote.id}/`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({
           title: editingNote.title,
           content: editingNote.content,
@@ -149,7 +167,18 @@ const Notes: React.FC = () => {
   const handleDeleteNote = async (id: string) => {
     showToast('Removing note...', 'info');
 
-    const res = await fetch(`https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/notes/${id}/delete/`, { method: 'DELETE', credentials: 'include' });
+    const token = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('loveconnect='))
+      ?.split('=')[1];
+
+    const res = await fetch(`https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/notes/${id}/delete/`, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
     if (res.ok) {
       setNotes(prev => prev.filter(note => note.id !== id));
       if (selectedNote?.id === id) {

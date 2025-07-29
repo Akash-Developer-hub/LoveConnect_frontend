@@ -35,7 +35,16 @@ export const ReminderNotificationProvider: React.FC<{ children: React.ReactNode 
   useEffect(() => {
     const fetchReminders = async () => {
       try {
+        // Get token from cookies
+        const token = document.cookie
+          .split('; ')
+          .find(row => row.startsWith('loveconnect='))
+          ?.split('=')[1];
+
         const res = await axios.get('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/reminders/', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
           withCredentials: true
         });
         const remindersWithDates = res.data.reminders.map((reminder: any) => ({
@@ -49,7 +58,7 @@ export const ReminderNotificationProvider: React.FC<{ children: React.ReactNode 
       }
     };
     fetchReminders();
-    const interval = setInterval(fetchReminders, 60000); // refresh every minute
+    const interval = setInterval(fetchReminders, 60000);
     return () => clearInterval(interval);
   }, []);
 

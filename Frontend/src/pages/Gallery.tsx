@@ -275,13 +275,24 @@ const Gallery: React.FC = () => {
   useEffect(() => {
     const fetchGallery = async () => {
       try {
+        const token = document.cookie
+          .split('; ')
+          .find(row => row.startsWith('loveconnect='))
+          ?.split('=')[1];
+
         const [userRes, galleryRes] = await Promise.all([
           fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/get-user/', {
             method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`
+            },
             credentials: 'include'
           }),
           fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/gallery/', {
             method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`
+            },
             credentials: 'include'
           })
         ]);
@@ -309,8 +320,16 @@ const Gallery: React.FC = () => {
     };
 
     const fetchUser = async () => {
+      const token = document.cookie
+          .split('; ')
+          .find(row => row.startsWith('loveconnect='))
+          ?.split('=')[1];
+
       const res = await fetch("https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/get-user/", {
         method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         credentials: 'include'
       });
       const data = await res.json();

@@ -28,7 +28,16 @@ const Extras: React.FC = () => {
   const [todoItems, setTodoItems] = useState<TodoItem[]>([]);
 
   useEffect(() => {
+    // Get token from cookies
+    const token = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('loveconnect='))
+      ?.split('=')[1];
+
     fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/extras/', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
       credentials: 'include'
     })
       .then(res => res.json())
@@ -43,12 +52,22 @@ const Extras: React.FC = () => {
       });
   }, []);
 
-  const handleAddLoveNote = async () => {
+const handleAddLoveNote = async () => {
     if (!newLoveNote.trim()) return;
+    
+    // Get token from cookies
+    const token = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('loveconnect='))
+      ?.split('=')[1];
+
     const res = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/extras/lovejar/add/', {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
       body: JSON.stringify({ message: newLoveNote })
     });
     if (res.ok) {
@@ -59,8 +78,17 @@ const Extras: React.FC = () => {
   };
 
   const handleRevealNote = async (id: string) => {
+    // Get token from cookies
+    const token = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('loveconnect='))
+      ?.split('=')[1];
+
     await fetch(`https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/extras/lovejar/reveal/${id}/`, {
       method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
       credentials: 'include'
     });
     setLoveNotes(prev =>
@@ -72,10 +100,20 @@ const Extras: React.FC = () => {
 
   const handleAddTodo = async () => {
     if (!newTodoItem.trim()) return;
+    
+    // Get token from cookies
+    const token = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('loveconnect='))
+      ?.split('=')[1];
+
     const res = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/extras/todo/add/', {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
       body: JSON.stringify({ title: newTodoItem })
     });
     if (res.ok) {
@@ -85,8 +123,17 @@ const Extras: React.FC = () => {
   };
 
   const handleToggleTodo = async (id: string) => {
+    // Get token from cookies
+    const token = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('loveconnect='))
+      ?.split('=')[1];
+
     await fetch(`https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/extras/todo/toggle/${id}/`, {
       method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
       credentials: 'include'
     });
     setTodoItems(prev =>
@@ -97,16 +144,34 @@ const Extras: React.FC = () => {
   };
 
   const handleDeleteTodo = async (id: string) => {
+    // Get token from cookies
+    const token = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('loveconnect='))
+      ?.split('=')[1];
+
     await fetch(`https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/extras/todo/delete/${id}/`, {
       method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
       credentials: 'include'
     });
     setTodoItems(prev => prev.filter(todo => todo.id !== id));
   };
 
   const handleDeleteLoveNote = async (id: string) => {
+    // Get token from cookies
+    const token = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('loveconnect='))
+      ?.split('=')[1];
+
     await fetch(`https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/extras/lovejar/delete/${id}/`, {
       method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
       credentials: 'include'
     });
     setLoveNotes(prev => prev.filter(note => note.id !== id));

@@ -40,8 +40,16 @@ const Reminders: React.FC = () => {
   useEffect(() => {
     const fetchReminders = async () => {
       try {
+        const token = document.cookie
+          .split('; ')
+          .find(row => row.startsWith('loveconnect='))
+          ?.split('=')[1];
+
         const res = await axios.get('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/reminders/', {
-          withCredentials: true
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
         });
         // Convert date strings to Date objects
         const remindersWithDates = res.data.reminders.map((reminder: any) => ({
@@ -86,19 +94,30 @@ const Reminders: React.FC = () => {
   const handleCreateReminder = async () => {
     if (newReminder.title && newReminder.description) {
       try {
+        const token = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('loveconnect='))
+        ?.split('=')[1];
         if (isEditing && editingReminder) {
           // PATCH to update
           await axios.patch(
             `https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/reminders/update/${editingReminder.id}/`,
             newReminder,
-            { withCredentials: true }
+            { 
+              headers: {
+                Authorization: `Bearer ${token}`
+              },
+              withCredentials: true }
           );
         } else {
           // POST to create
           await axios.post(
             'https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/reminders/create/',
             newReminder,
-            { withCredentials: true }
+            { headers: {
+                Authorization: `Bearer ${token}`
+              },
+              withCredentials: true }
           );
         }
         // Reset UI state
@@ -132,11 +151,22 @@ const Reminders: React.FC = () => {
 
   const toggleComplete = async (id: string) => {
     try {
+      const token = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('loveconnect='))
+      ?.split('=')[1];
+
       await axios.patch(`https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/reminders/complete/${id}/`, null, {
-        withCredentials: true
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
       const res = await axios.get('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/reminders/', {
-        withCredentials: true
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
       // Convert date strings to Date objects
       const remindersWithDates = res.data.reminders.map((reminder: any) => ({
@@ -152,11 +182,22 @@ const Reminders: React.FC = () => {
 
   const deleteReminder = async (id: string) => {
     try {
+      const token = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('loveconnect='))
+        ?.split('=')[1];
+        
       await axios.delete(`https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/reminders/delete/${id}/`, {
-        withCredentials: true
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
       const res = await axios.get('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/reminders/', {
-        withCredentials: true
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
       // Convert date strings to Date objects
       const remindersWithDates = res.data.reminders.map((reminder: any) => ({

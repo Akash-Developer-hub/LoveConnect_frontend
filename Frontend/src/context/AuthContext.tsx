@@ -38,7 +38,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Check if user is logged in on app start
     const checkAuth = async () => {
       try {
+        // Get token from cookies
+        const token = document.cookie
+          .split('; ')
+          .find(row => row.startsWith('loveconnect='))
+          ?.split('=')[1];
+
         const response = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/get-user/', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
           credentials: 'include'
         });
         
@@ -81,7 +90,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       if (response.ok) {
         // Login successful - fetch user data
+        // Get token from cookies
+        const token = document.cookie
+          .split('; ')
+          .find(row => row.startsWith('loveconnect='))
+          ?.split('=')[1];
+
         const userResponse = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/get-user/', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
           credentials: 'include'
         });
         
@@ -130,9 +148,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = async () => {
     try {
+      // Get token from cookies
+      const token = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('loveconnect='))
+        ?.split('=')[1];
+
       // Call backend logout to clear cookies
       await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/logout/', {
         method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         credentials: 'include'
       });
     } catch {
