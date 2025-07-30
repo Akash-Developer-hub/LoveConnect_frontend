@@ -89,10 +89,17 @@ const Chat: React.FC = () => {
 
       const token = document.cookie
         .split('; ')
-        .find(row => row.startsWith('loveconnect'))?.split('=')[1];
+        .find(row => row.startsWith('loveconnect='))
+        ?.split('=')[1];
+
+      if (!token) {
+        showToast('Authentication token not found. Please log in again.', 'error');
+        return;
+      }
 
       // Use secure WebSocket (wss://) for HTTPS sites
-      const socket = new WebSocket(`wss://loveconnect-backend-kvb9.onrender.com/ws/chat/${user.partnerCode}/`);
+      const socket = new WebSocket(`wss://loveconnect-backend-kvb9.onrender.com/ws/chat/${user.partnerCode}/?token=${token}`);
+      
       socketRef.current = socket;
 
       socket.onmessage = (event) => {
