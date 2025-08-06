@@ -84,6 +84,12 @@ const Chat: React.FC = () => {
     }
   }, []);
 
+    useEffect(() => {
+    if ("Notification" in window && Notification.permission === "default") {
+      Notification.requestPermission();
+    }
+  }, []);
+
   useEffect(() => {
       if (!user?.partnerCode) return;
 

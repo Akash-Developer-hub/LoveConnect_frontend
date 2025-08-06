@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Heart, Copy, Users, Plus, Hash } from 'lucide-react';
+import { Heart, Copy, Users, Plus, Hash, Info } from 'lucide-react';
 
 const Pairing: React.FC = () => {
   const [pairCode, setPairCode] = useState('');
@@ -131,6 +131,20 @@ const Pairing: React.FC = () => {
           <p className="text-gray-600 mt-2">Connect with your loved one to start chatting</p>
         </div>
 
+        {/* Gender Compatibility Notice */}
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+          <div className="flex items-start space-x-3">
+            <Info className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+            <div>
+              <h3 className="text-sm font-semibold text-blue-800 mb-1">Pairing Requirements</h3>
+              <p className="text-xs text-blue-700">
+                LoveConnect only supports traditional male-female partnerships. 
+                Same-gender pairing is not available.
+              </p>
+            </div>
+          </div>
+        </div>
+
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm mb-6">
             {error}
@@ -185,6 +199,11 @@ const Pairing: React.FC = () => {
                 <p className="text-gray-600 mb-6">
                   Generate a unique code that your partner can use to connect with you.
                 </p>
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+                  <p className="text-xs text-yellow-800">
+                    💡 <strong>Reminder:</strong> Your partner must be of the opposite gender to successfully pair.
+                  </p>
+                </div>
                 <button
                   onClick={generatePairCode}
                   disabled={isLoading}
@@ -241,6 +260,12 @@ const Pairing: React.FC = () => {
               <Hash className="w-16 h-16 text-pink-600 mx-auto mb-4" />
               <p className="text-gray-600 mb-6">
                 Enter the 6-character code shared by your partner.
+              </p>
+            </div>
+
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+              <p className="text-xs text-yellow-800">
+                ⚠️ <strong>Important:</strong> You can only pair with someone of the opposite gender.
               </p>
             </div>
 

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Heart, User, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { Heart, User, Mail, Lock, Eye, EyeOff, Users } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const Signup: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    gender: '',
     pin: '',
     confirmPin: ''
   });
@@ -15,24 +17,9 @@ const Signup: React.FC = () => {
   const [error, setError] = useState('');
   
   const navigate = useNavigate();
+  const { signup: authSignup } = useAuth();
 
-  const signup = async (name: string, email: string, pin: string) => {
-    const response = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/signup/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ name, email, pin }),
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-      return true;
-    } else {
-      throw new Error(data.error || 'Signup failed');
-    }
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     
     if (name === 'pin' || name === 'confirmPin') {
@@ -50,6 +37,12 @@ const Signup: React.FC = () => {
     setError('');
 
     // Validation
+    if (!formData.gender) {
+      setError('Please select your gender.');
+      setIsLoading(false);
+      return;
+    }
+
     if (formData.pin !== formData.confirmPin) {
       setError('PINs do not match. Please try again.');
       setIsLoading(false);
@@ -63,9 +56,9 @@ const Signup: React.FC = () => {
     }
 
     try {
-      const success = await signup(formData.name, formData.email, formData.pin);
+      const success = await authSignup(formData.name, formData.email, formData.gender, formData.pin);
       if (success) {
-        navigate('/login');
+        navigate('/pairing');
       } else {
         setError('Failed to create account. Please try again.');
       }
@@ -135,6 +128,32 @@ const Signup: React.FC = () => {
                 placeholder="Enter your email"
                 required
               />
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="gender" className="block text-sm font-medium text-gray-700 mb-2">
+              Gender
+            </label>
+            <div className="relative">
+              <Users className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+              <select
+                id="gender"
+                name="gender"
+                value={formData.gender}
+                onChange={handleInputChange}
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent appearance-none bg-white"
+                required
+              >
+                <option value="">Select your gender</option>
+                <option value="male">Adam</option>
+                <option value="female">Eve</option>
+              </select>
+              <div className="absolute right-3 top-3 pointer-events-none">
+                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
             </div>
           </div>
 

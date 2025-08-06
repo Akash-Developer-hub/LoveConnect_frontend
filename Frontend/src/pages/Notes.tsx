@@ -99,7 +99,7 @@ const Notes: React.FC = () => {
       .find(row => row.startsWith('loveconnect='))
       ?.split('=')[1];
 
-    const res = await fetch('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/notes/create/', {
+    const res = await fetch(`https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/notes/create/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
       body: JSON.stringify(newNoteData),

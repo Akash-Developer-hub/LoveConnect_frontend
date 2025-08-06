@@ -135,7 +135,10 @@ const Reminders: React.FC = () => {
         setIsCreating(false);
         // Refresh list
         const refreshed = await axios.get('https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/reminders/', {
-          withCredentials: true
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}` // <-- Add this line
+          }
         });
         const remindersWithDates = refreshed.data.reminders.map((reminder: any) => ({
           ...reminder,
@@ -186,7 +189,7 @@ const Reminders: React.FC = () => {
         .split('; ')
         .find(row => row.startsWith('loveconnect='))
         ?.split('=')[1];
-        
+
       await axios.delete(`https://loveconnect-backend-kvb9.onrender.com/loveconnect/api/reminders/delete/${id}/`, {
         withCredentials: true,
         headers: {
@@ -459,7 +462,7 @@ const Reminders: React.FC = () => {
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 mb-2 sm:mb-3">
                         <h3 className={`font-semibold text-sm sm:text-base leading-tight ${
-                          reminder.isCompleted ? 'text-gray-500 line-through' : `text-gray-800 ${isDarkMode ? 'text-gray-200' : ''}`
+                          reminder.isCompleted ? ' line-through' : ` ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`
                         }`}>
                           {reminder.title}
                         </h3>

@@ -39,7 +39,6 @@ const Gallery: React.FC = () => {
     const id = Date.now().toString();
     const newToast = { id, message, type };
     setToasts(prev => [...prev, newToast]);
-
     setTimeout(() => {
       setToasts(prev => prev.filter(toast => toast.id !== id));
     }, 4000);
@@ -76,11 +75,9 @@ const Gallery: React.FC = () => {
   const processImage = async (file: File): Promise<File> => {
     const fileType = file.type.toLowerCase();
     const fileName = file.name.toLowerCase();
-
     if (fileType === 'image/jpeg' || fileType === 'image/jpg') {
       return file;
     }
-
     if (fileType === 'image/heic' || fileName.endsWith('.heic')) {
       setIsConverting(true);
       showToast('Converting HEIC image to JPEG...', 'info');
@@ -94,7 +91,6 @@ const Gallery: React.FC = () => {
         setIsConverting(false);
       }
     }
-
     throw new Error('Please select a JPG, JPEG, or HEIC image file.');
   };
 
@@ -121,7 +117,6 @@ const Gallery: React.FC = () => {
     }
     setIsUploading(true);
     showToast('Uploading your precious memory... 💖', 'info');
-
     try {
       const formData = new FormData();
       formData.append('image', selectedFile);
@@ -337,7 +332,6 @@ const Gallery: React.FC = () => {
         setCurrentUserEmail(data.email);
       }
     };
-
     fetchUser();
     fetchGallery();
   }, []);
@@ -393,29 +387,30 @@ const Gallery: React.FC = () => {
 
       {/* Header */}
       <div className={`border-b ${isDarkMode ? 'border-pink-700 bg-gray-800' : 'border-pink-200 bg-white'} p-4 fixed w-full top-0 left-0 z-40 shadow-sm`}>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row items-center justify-between">
           <h1 className="text-xl font-bold">Our Gallery</h1>
-          <button
-            onClick={() => setShowOnlyLiked(!showOnlyLiked)}
-            className={`px-3 py-1 ml-24 text-sm rounded-full transition ${
-              showOnlyLiked ? 'bg-pink-600 text-white' : 'bg-gray-200 text-gray-700'
-            }`}
-          >
-            {showOnlyLiked ? 'Liked Only' : 'All Posts'}
-          </button>
-          <label htmlFor="upload-image" className="p-2 bg-pink-600 text-white rounded-full hover:bg-pink-700 cursor-pointer">
-            <Plus size={20} />
-          </label>
-          <input
-            id="upload-image"
-            type="file"
-            accept="image/jpeg,image/jpg,.heic,.HEIC"
-            onChange={handleImageUpload}
-            className="hidden"
-          />
+          <div className="flex items-center mt-2 sm:mt-0">
+            <button
+              onClick={() => setShowOnlyLiked(!showOnlyLiked)}
+              className={`px-3 py-1 text-sm rounded-full transition mr-2 ${showOnlyLiked ? 'bg-pink-600 text-white' : 'bg-gray-200 text-gray-700'
+                }`}
+            >
+              {showOnlyLiked ? 'Liked Only' : 'All Posts'}
+            </button>
+            <label htmlFor="upload-image" className="p-2 bg-pink-600 text-white rounded-full hover:bg-pink-700 cursor-pointer">
+              <Plus size={20} />
+            </label>
+            <input
+              id="upload-image"
+              type="file"
+              accept="image/jpeg,image/jpg,.heic,.HEIC"
+              onChange={handleImageUpload}
+              className="hidden"
+            />
+          </div>
         </div>
         {galleryItems.length > 0 && (
-          <p className="text-sm text-gray-600 mt-2">
+          <p className="text-sm text-gray-600 mt-2 text-center sm:text-left">
             {galleryItems.length} precious memories
           </p>
         )}
@@ -446,7 +441,7 @@ const Gallery: React.FC = () => {
             </label>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {(showOnlyLiked ? galleryItems.filter(i => i.liked) : galleryItems).map((item) => (
               <div
                 key={item.id}
@@ -469,9 +464,8 @@ const Gallery: React.FC = () => {
                         e.stopPropagation();
                         toggleLike(item.id);
                       }}
-                      className={`p-1 rounded-full ${
-                        item.liked ? 'text-pink-600' : 'text-gray-400 hover:text-pink-600'
-                      }`}
+                      className={`p-1 rounded-full ${item.liked ? 'text-pink-600' : 'text-gray-400 hover:text-pink-600'
+                        }`}
                     >
                       <Heart size={16} fill={item.liked ? 'currentColor' : 'none'} />
                     </button>
@@ -548,9 +542,16 @@ const Gallery: React.FC = () => {
       )}
 
       {/* Image Modal */}
+      {/* Image Modal */}
       {selectedImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
-          <div className={`max-w-4xl max-h-full overflow-hidden ${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl`}>
+        <div
+          className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div
+            className={`max-w-4xl w-full max-h-full overflow-y-auto ${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl`}
+            onClick={e => e.stopPropagation()}
+          >
             <div className={`flex items-center justify-between p-4 border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
               <div className="flex items-center space-x-3">
                 <span className={`font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>{selectedImage.uploadedBy}</span>
