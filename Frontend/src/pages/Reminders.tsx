@@ -462,7 +462,7 @@ const Reminders: React.FC = () => {
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 mb-2 sm:mb-3">
                         <h3 className={`font-semibold text-sm sm:text-base leading-tight ${
-                          reminder.isCompleted ? ' line-through' : ` ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`
+                          reminder.isCompleted ? ' line-through' : `${isDarkMode ? 'text-gray-200' : 'text-gray-800 '}`
                         }`}>
                           {reminder.title}
                         </h3>
