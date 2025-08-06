@@ -67,7 +67,7 @@ const NotFound: React.FC = () => {
 
         {/* Additional Info */}
         <div className={`mt-6 text-xs ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`}>
-          <p>If you think this is a mistake, please contact support</p>
+           <p>If you think this is a mistake, please <span className="text-pink-500 cursor-pointer hover:underline" onClick={() => navigate("/support")}> Contact support</span></p>
         </div>
       </div>
 
